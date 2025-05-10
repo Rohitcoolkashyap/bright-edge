@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# Chrome UX Report Analyzer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application for analyzing website performance using the Chrome UX Report API.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Analyze performance metrics for a single URL
+- Compare performance metrics for multiple URLs
+- Filter and sort performance data
+- View performance insights and recommendations
+- Summary statistics for batch URL analysis
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React.js, Material UI
+- **Backend**: Node.js, Express.js
+- **API**: Chrome UX Report API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Setup and Installation
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v14+)
+- npm or yarn
+- Google API Key for Chrome UX Report API
 
-### `npm run build`
+### Installation Steps
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd bright-edge
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+   ```
+   npm run install-all
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Create a `.env` file in the `server` directory with your Google API Key:
+   ```
+   GOOGLE_API_KEY=your_google_api_key
+   PORT=5000
+   ```
 
-### `npm run eject`
+4. Start the development server:
+   ```
+   npm run dev
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Open your browser and navigate to `http://localhost:3000`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Getting a Google API Key
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Navigate to "APIs & Services" > "Library"
+4. Search for "Chrome UX Report API" and enable it
+5. Go to "APIs & Services" > "Credentials"
+6. Click "Create Credentials" and select "API Key"
+7. Copy the generated API key and add it to your `.env` file
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Usage
 
-## Learn More
+### Single URL Analysis
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Enter a URL in the input field
+2. Click "Search" to fetch the Chrome UX Report data
+3. View the performance metrics and insights
+4. Use the filter to focus on specific metrics by status
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Multi-URL Analysis
 
-### Code Splitting
+1. Click "Switch to Multi-URL Mode"
+2. Enter multiple URLs (one per line) and click "Add URLs"
+3. Click "Search" to fetch data for all URLs
+4. Use the tabs to switch between comparison view, individual results, and summary
+5. Apply filters to focus on specific metrics or URLs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Project Structure
 
-### Analyzing the Bundle Size
+```
+bright-edge/
+├── public/                 # Static files
+├── server/                 # Backend server
+│   ├── routes/             # API routes
+│   ├── utils/              # Utility functions
+│   └── server.js           # Express server setup
+├── src/                    # React frontend
+│   ├── components/         # React components
+│   ├── App.js              # Main App component
+│   └── index.js            # Entry point
+├── package.json            # Dependencies and scripts
+└── README.md               # Project documentation
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Known Issues and Limitations
 
-### Making a Progressive Web App
+- The Chrome UX Report API may not have data for all websites, especially less popular ones
+- The free tier of the API has rate limits (150 queries per day)
+- Performance metrics are based on actual user data, which may vary over time
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Future Improvements
 
-### Advanced Configuration
+- Add user authentication to save favorite URLs
+- Implement historical data tracking to see performance changes over time
+- Add more visualization options (charts, graphs)
+- Export data to PDF or CSV formats
+- Implement more detailed recommendations based on specific issues detected
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## License
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT
