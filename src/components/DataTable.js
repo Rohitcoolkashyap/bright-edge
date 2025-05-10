@@ -20,7 +20,6 @@ import {
   Select
 } from '@mui/material';
 
-// Convert CrUX metric name to readable format
 const getMetricName = (key) => {
   const metricNames = {
     lcp: 'Largest Contentful Paint',
@@ -33,15 +32,13 @@ const getMetricName = (key) => {
   return metricNames[key] || key;
 };
 
-// Get color based on value
 const getStatusColor = (metric, value) => {
-  // Different thresholds for different metrics
   const thresholds = {
-    lcp: { good: 2500, needsImprovement: 4000 }, // milliseconds
-    cls: { good: 0.1, needsImprovement: 0.25 }, // unitless
-    fid: { good: 100, needsImprovement: 300 }, // milliseconds
-    inp: { good: 200, needsImprovement: 500 }, // milliseconds
-    fcp: { good: 1800, needsImprovement: 3000 } // milliseconds
+    lcp: { good: 2500, needsImprovement: 4000 }, 
+    cls: { good: 0.1, needsImprovement: 0.25 },
+    fid: { good: 100, needsImprovement: 300 }, 
+    inp: { good: 200, needsImprovement: 500 }, 
+    fcp: { good: 1800, needsImprovement: 3000 } 
   };
   
   const threshold = thresholds[metric];
@@ -53,9 +50,7 @@ const getStatusColor = (metric, value) => {
   return 'error';
 };
 
-// Format percentile value based on metric
 const formatPercentile = (metric, value) => {
-  // Check if value is a valid number
   if (value === null || value === undefined || typeof value !== 'number' || isNaN(value)) {
     return 'N/A';
   }
@@ -66,7 +61,6 @@ const formatPercentile = (metric, value) => {
   return `${Math.round(value)}ms`;
 };
 
-// Single URL data table
 const SingleURLDataTable = ({ data }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [filterValue, setFilterValue] = useState('all');
@@ -79,7 +73,6 @@ const SingleURLDataTable = ({ data }) => {
     setSortConfig({ key, direction });
   };
 
-  // Filter data based on selected filter
   const getFilteredData = () => {
     if (!data || !data.metrics) return [];
     
@@ -96,7 +89,6 @@ const SingleURLDataTable = ({ data }) => {
     
     if (filterValue === 'all') return metrics;
     
-    // Filter based on status
     return metrics.filter(item => {
       const color = getStatusColor(item.metric, item.percentile);
       if (filterValue === 'good' && color === 'success') return true;
@@ -106,7 +98,6 @@ const SingleURLDataTable = ({ data }) => {
     });
   };
 
-  // Sort data
   const getSortedData = () => {
     const filteredData = getFilteredData();
     
@@ -282,7 +273,6 @@ const SingleURLDataTable = ({ data }) => {
   );
 };
 
-// Multi URL data table
 const MultiURLDataTable = ({ data }) => {
   const [tabValue, setTabValue] = useState(0);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
@@ -302,7 +292,6 @@ const MultiURLDataTable = ({ data }) => {
     setSortConfig({ key, direction });
   };
 
-  // Get all available metrics from results
   const getAllMetrics = () => {
     if (!data || !data.results) return [];
     
@@ -319,13 +308,11 @@ const MultiURLDataTable = ({ data }) => {
     return Array.from(metrics);
   };
 
-  // Get all URLs from results
   const getFilteredResults = () => {
     if (!data || !data.results) return [];
     
     let results = data.results;
     
-    // Filter by URL
     if (filterUrl) {
       results = results.filter(result => 
         result.url.toLowerCase().includes(filterUrl.toLowerCase())
@@ -335,7 +322,6 @@ const MultiURLDataTable = ({ data }) => {
     return results;
   };
 
-  // Get comparison data for all URLs
   const getComparisonData = () => {
     const results = getFilteredResults();
     if (results.length === 0) return [];
@@ -348,14 +334,12 @@ const MultiURLDataTable = ({ data }) => {
       
       allMetrics.forEach(metric => {
         if (result.metrics[metric]) {
-          // Skip if filtering by metric
           if (filterMetric !== 'all' && metric !== filterMetric) return;
           
           const metricData = result.metrics[metric];
           const percentile = metricData.percentile;
           const status = getStatusColor(metric, percentile);
           
-          // Skip if filtering by threshold
           if (filterThreshold === 'good' && status !== 'success') return;
           if (filterThreshold === 'needsImprovement' && status !== 'warning') return;
           if (filterThreshold === 'poor' && status !== 'error') return;
@@ -374,7 +358,6 @@ const MultiURLDataTable = ({ data }) => {
       });
     });
     
-    // Sort data
     if (sortConfig.key) {
       comparisonData.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
