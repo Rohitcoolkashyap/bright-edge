@@ -38,6 +38,9 @@ const processCruxData = (data) => {
         poor: metrics.first_input_delay.histogram[2].density,
         percentile: metrics.first_input_delay.percentiles.p75,
       };
+    } else {
+      // FID has been deprecated in favor of INP
+      console.log('FID metric is no longer available from CrUX API');
     }
 
     if (metrics.interaction_to_next_paint) {
@@ -97,12 +100,10 @@ const generateInsights = (processedData) => {
     }
   }
 
-  // FID (First Input Delay) insights
-  if (processedData.fid) {
-    if (processedData.fid.percentile > 100) {
-      insights.issues.push('Slow First Input Delay (FID)');
-      insights.recommendations.push('Improve FID by breaking up long tasks, optimizing JavaScript execution, and reducing JavaScript execution time');
-    }
+  // FID (First Input Delay) insights - only include if data exists
+  if (processedData.fid && processedData.fid.percentile > 100) {
+    insights.issues.push('Slow First Input Delay (FID)');
+    insights.recommendations.push('Improve FID by breaking up long tasks, optimizing JavaScript execution, and reducing JavaScript execution time');
   }
 
   // INP (Interaction to Next Paint) insights

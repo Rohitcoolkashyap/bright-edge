@@ -31,12 +31,6 @@ function generateMockCruxData(urlParam) {
       poor: 0.06,
       percentile: 0.08,
     },
-    fid: {
-      good: 0.90,
-      needsImprovement: 0.07,
-      poor: 0.03,
-      percentile: 80,
-    },
     inp: {
       good: 0.65,
       needsImprovement: 0.25,
@@ -89,7 +83,6 @@ router.post('/report', async (req, res) => {
       metrics: [
         'largest_contentful_paint',
         'cumulative_layout_shift',
-        'first_input_delay',
         'interaction_to_next_paint',
         'first_contentful_paint'
       ]
@@ -235,7 +228,6 @@ router.post('/batch-report', async (req, res) => {
               metrics: [
                 'largest_contentful_paint',
                 'cumulative_layout_shift',
-                'first_input_delay',
                 'interaction_to_next_paint',
                 'first_contentful_paint'
               ]
