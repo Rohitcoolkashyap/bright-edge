@@ -17,7 +17,6 @@ const MultiURLInput = ({ setData, setError, setLoading, setMultiUrlMode }) => {
   };
 
   const handleAddUrl = () => {
-    // Split multiple URLs entered with newlines
     const newUrls = urlInput
       .split('\n')
       .map(url => url.trim())

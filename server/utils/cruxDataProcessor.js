@@ -12,7 +12,6 @@ const processCruxData = (data) => {
     const { metrics } = data.record;
     const processedData = {};
 
-    // Process Core Web Vitals
     if (metrics.largest_contentful_paint) {
       processedData.lcp = {
         good: metrics.largest_contentful_paint.histogram[0].density,
@@ -39,7 +38,6 @@ const processCruxData = (data) => {
         percentile: metrics.first_input_delay.percentiles.p75,
       };
     } else {
-      // FID has been deprecated in favor of INP
       console.log('FID metric is no longer available from CrUX API');
     }
 
@@ -84,7 +82,6 @@ const generateInsights = (processedData) => {
     recommendations: [],
   };
 
-  // LCP (Largest Contentful Paint) insights
   if (processedData.lcp) {
     if (processedData.lcp.percentile > 2500) {
       insights.issues.push('Slow Largest Contentful Paint (LCP)');
@@ -92,7 +89,6 @@ const generateInsights = (processedData) => {
     }
   }
 
-  // CLS (Cumulative Layout Shift) insights
   if (processedData.cls) {
     if (processedData.cls.percentile > 0.1) {
       insights.issues.push('High Cumulative Layout Shift (CLS)');
@@ -100,13 +96,11 @@ const generateInsights = (processedData) => {
     }
   }
 
-  // FID (First Input Delay) insights - only include if data exists
   if (processedData.fid && processedData.fid.percentile > 100) {
     insights.issues.push('Slow First Input Delay (FID)');
     insights.recommendations.push('Improve FID by breaking up long tasks, optimizing JavaScript execution, and reducing JavaScript execution time');
   }
 
-  // INP (Interaction to Next Paint) insights
   if (processedData.inp) {
     if (processedData.inp.percentile > 200) {
       insights.issues.push('Slow Interaction to Next Paint (INP)');
@@ -114,7 +108,6 @@ const generateInsights = (processedData) => {
     }
   }
 
-  // FCP (First Contentful Paint) insights
   if (processedData.fcp) {
     if (processedData.fcp.percentile > 1800) {
       insights.issues.push('Slow First Contentful Paint (FCP)');
@@ -122,7 +115,6 @@ const generateInsights = (processedData) => {
     }
   }
 
-  // Overall performance score
   let performanceScore = 0;
   let metricsCount = 0;
 
@@ -178,7 +170,6 @@ const processBatchData = (batchResults) => {
       };
     });
 
-    // Calculate averages for comparative analysis
     const validResults = processed.filter(result => !result.error);
     
     if (validResults.length > 0) {

@@ -5,18 +5,14 @@ const fetch = require('node-fetch');
 const router = express.Router();
 const { processCruxData, generateInsights, processBatchData } = require('../utils/cruxDataProcessor');
 
-// Configure alternative https agent for fetch
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false
 });
 
-// API Key - for testing purposes we'll try both approaches
 const API_KEY = process.env.GOOGLE_API_KEY || 'AIzaSyDskUhOhiJsSMh-UQirHNA4dReJ0QyAY1E';
 
-// CrUX API endpoint - using the public API endpoint
 const CRUX_API_ENDPOINT = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
 
-// Generate mock CrUX data for development/testing
 function generateMockCruxData(urlParam) {
   const mockMetrics = {
     lcp: {
@@ -65,7 +61,6 @@ function generateMockCruxData(urlParam) {
   };
 }
 
-// Get Chrome UX Report for a single URL
 router.post('/report', async (req, res) => {
   try {
     const { url } = req.body;
@@ -76,7 +71,6 @@ router.post('/report', async (req, res) => {
     
     console.log(`Fetching CrUX data for URL: ${url}`);
     
-    // Creating a sample payload based on the official documentation
     const payload = {
       url: url,
       formFactor: 'PHONE',
@@ -88,7 +82,6 @@ router.post('/report', async (req, res) => {
       ]
     };
     
-    // Try the first approach with fetch
     try {
       const response = await fetch(
         `${CRUX_API_ENDPOINT}?key=${API_KEY}`,
@@ -124,7 +117,6 @@ router.post('/report', async (req, res) => {
     } catch (fetchError) {
       console.error('Fetch approach failed, trying axios:', fetchError.message);
       
-      // If fetch fails, try with axios as a fallback
       const axiosResponse = await axios({
         method: 'post',
         url: CRUX_API_ENDPOINT,
@@ -149,15 +141,12 @@ router.post('/report', async (req, res) => {
   } catch (error) {
     console.error('Error fetching CrUX data:', error.message);
     
-    // Check if we can get more error details
     let errorDetails = error.message || 'Unknown error';
     if (error.response && error.response.data) {
       console.error('Error response data:', error.response.data);
       errorDetails = JSON.stringify(error.response.data);
     }
     
-    // Create a mock response for testing if the API doesn't work
-    // This is only for demonstration purposes
     if (process.env.NODE_ENV === 'development') {
       console.log('Generating mock data for development testing');
       const requestUrl = req.body.url || 'example.com';
@@ -173,7 +162,6 @@ router.post('/report', async (req, res) => {
   }
 });
 
-// Get Chrome UX Report for multiple URLs
 router.post('/batch-report', async (req, res) => {
   try {
     const { urls } = req.body;
@@ -182,7 +170,6 @@ router.post('/batch-report', async (req, res) => {
       return res.status(400).json({ error: 'Valid URLs array is required' });
     }
     
-    // If we're in development mode and API doesn't work, use mock data
     if (process.env.NODE_ENV === 'development') {
       const mockResults = urls.map(url => ({
         url,
