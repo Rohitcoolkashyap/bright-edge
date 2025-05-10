@@ -93,21 +93,3 @@ bright-edge/
 ├── package.json            # Dependencies and scripts
 └── README.md               # Project documentation
 ```
-
-## Known Issues and Limitations
-
-- The Chrome UX Report API may not have data for all websites, especially less popular ones
-- The free tier of the API has rate limits (150 queries per day)
-- Performance metrics are based on actual user data, which may vary over time
-
-## Future Improvements
-
-- Add user authentication to save favorite URLs
-- Implement historical data tracking to see performance changes over time
-- Add more visualization options (charts, graphs)
-- Export data to PDF or CSV formats
-- Implement more detailed recommendations based on specific issues detected
-
-## License
-
-MIT
