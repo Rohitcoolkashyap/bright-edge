@@ -2,6 +2,7 @@
 
 A web application for analyzing website performance using the Chrome UX Report API.
 
+## Demo Link: https://bright-edge-4.onrender.com/
 ## Features
 
 - Analyze performance metrics for a single URL
