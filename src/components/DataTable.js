@@ -55,6 +55,11 @@ const getStatusColor = (metric, value) => {
 
 // Format percentile value based on metric
 const formatPercentile = (metric, value) => {
+  // Check if value is a valid number
+  if (value === null || value === undefined || typeof value !== 'number' || isNaN(value)) {
+    return 'N/A';
+  }
+  
   if (metric === 'cls') {
     return value.toFixed(3);
   }
@@ -216,9 +221,9 @@ const SingleURLDataTable = ({ data }) => {
                 <TableRow key={item.metric}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{formatPercentile(item.metric, item.percentile)}</TableCell>
-                  <TableCell>{(item.good * 100).toFixed(1)}%</TableCell>
-                  <TableCell>{(item.needsImprovement * 100).toFixed(1)}%</TableCell>
-                  <TableCell>{(item.poor * 100).toFixed(1)}%</TableCell>
+                  <TableCell>{typeof item.good === 'number' ? (item.good * 100).toFixed(1) : 'N/A'}%</TableCell>
+                  <TableCell>{typeof item.needsImprovement === 'number' ? (item.needsImprovement * 100).toFixed(1) : 'N/A'}%</TableCell>
+                  <TableCell>{typeof item.poor === 'number' ? (item.poor * 100).toFixed(1) : 'N/A'}%</TableCell>
                   <TableCell>
                     <Chip 
                       label={
@@ -494,7 +499,7 @@ const MultiURLDataTable = ({ data }) => {
                       </TableCell>
                       <TableCell>{item.metricName}</TableCell>
                       <TableCell>{formatPercentile(item.metric, item.percentile)}</TableCell>
-                      <TableCell>{(item.good * 100).toFixed(1)}%</TableCell>
+                      <TableCell>{typeof item.good === 'number' ? (item.good * 100).toFixed(1) : 'N/A'}%</TableCell>
                       <TableCell>
                         <Chip 
                           label={
@@ -585,7 +590,7 @@ const MultiURLDataTable = ({ data }) => {
                               <TableRow key={metric}>
                                 <TableCell>{getMetricName(metric)}</TableCell>
                                 <TableCell>{formatPercentile(metric, metricData.percentile)}</TableCell>
-                                <TableCell>{(metricData.good * 100).toFixed(1)}%</TableCell>
+                                <TableCell>{typeof metricData.good === 'number' ? (metricData.good * 100).toFixed(1) : 'N/A'}%</TableCell>
                                 <TableCell>
                                   <Chip 
                                     label={
